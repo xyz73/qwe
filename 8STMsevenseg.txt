@@ -1,0 +1,15 @@
+#include "main.h"
+int main(void){
+	unsigned char ssCode[]={//values to calculate};
+	unsigned int i;
+	HAL_init();
+	SystemClock_Config();
+	ssInit();
+	while(1){
+		GPIOA->ODR|=(1<<4);
+		for(i=0;i<10;i++){
+			ssDisplay(ssCode[i]);
+			HAL_delay(500);
+		}
+	}
+}

@@ -1,0 +1,12 @@
+#include "Seven_SedUserlib.h"
+#include "delay.h"
+void main (void){
+	InitSevenSeg();
+	while(1){
+		int i=0;
+		for(int i=0;i<10;i++){
+			DisplayDigit(i,seg1);
+			DelayMs(1000);
+		}
+	}
+}

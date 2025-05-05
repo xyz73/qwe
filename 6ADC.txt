@@ -1,0 +1,40 @@
+#include "lpc214x.h"
+#include "VICLowlevel.h"
+#include "lcd.h"
+#include "adc.h"
+
+unsigned int AdcData=0;
+
+void Exti_Init(void);
+Void Ext1isr(void){
+	ISR_ENTRY();
+	Read_Adc(&AdcData);
+	Display HexLcd(AdcData);
+	Delay(80000);
+	EXTINT=0xC0;
+	VIC VectAddr=0x00;
+	ISR_EXIT();
+}
+int main(void){
+	Lcd_Init();
+	Adc_Init();
+	Lcd_cmd(0x01);
+	Exti_Init();
+	Lcd_cmd(0x80);
+	Lcd_String("ADC value");
+	Lcd_cmd(0xC0);
+	Lcd_String("CH0.1:");
+	enable IRQ;
+	while(1);
+}
+void Exti_Init(void){
+	IO0DIR |=0x02;
+	IO0SET |=0x02;
+	PINSEL0|=(1<<2)|(1<<3);
+	EXTMODE=1;
+	EXTPOLAR=0;
+	VICIntEnable |=(0x01<<14);
+	VICIntEnable &=(~(0x01<<14));
+	VICIntAddr0=(unsigned)extlisr;
+	VICVectCntl0=(0x20|14);
+}

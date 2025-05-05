@@ -1,0 +1,26 @@
+#include "dac.h"
+#include "delay.h"
+
+void configDac(char SettingTime){
+	configGpio(DAC_PORT,Aout,Output,AltFunc2);
+	if(SettingTime==1){
+		DACREG.DACR.bit.BIAS=1;
+	}else if(SettingTime==0){
+		DACREG.DACR.bit.BIAS=0;
+	}
+}
+void convDac(unsigned char Value){
+	DACR.DACR.bit.Value=Value;
+}
+int main(){
+	configDac(0);
+	unsigned int i;
+	while(1){
+		for(i=0;i<=1023;i++){
+			convDac(i);
+		}
+		for(i=1023;i<=0;i--){
+			convDac(i);
+		}
+	}
+}

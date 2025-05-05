@@ -1,0 +1,39 @@
+#include "lcd.h"
+#include "i2c.h"
+#include "lpc214x.h"
+
+unsigned char p=0x00;
+
+int main(void){
+	unsigned char ReadStatus,WriteStatus;
+	unsigned char EepromBufA[11]={0x00,'A','A','A','A','A','A','A','A','A','A'};
+	unsigned char EepromBufB[2]={0x0,0};
+	unsigned int No;
+	
+	Lcd_Init();
+	Lcd_cmd(0x01);
+	Lcd_cmd(0x80);
+	I2C_init(100);
+	WriteStatus=Eeprom_Write(oxAo,EepromBufA,10);
+	if(WriteStatus==1){
+		Lcd_String("Write Successful");
+	}else{
+		Lcd_String("Write Fail");
+	}
+	
+	Lcd_cmd(0xC0);
+	for(No=0;No<10;No++){
+		ReadStatus=Eeprom_Read(OxA0,EepromBufB,1)
+		if(ReadStatus==1){
+			Lcd_String(&EepromBufB[No]);
+		}else{
+			Lcd_String("Read Fail");
+		}
+		Delay(100000);
+		p++;
+	}
+	while(1);
+	return 0;
+}
+	
+	

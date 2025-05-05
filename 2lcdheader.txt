@@ -1,0 +1,64 @@
+#include "lcd.h"
+void delay(unsigned loops);
+void Toggle_En(void);
+void Lcd_cmd(char lcdcmd);
+void Lcd_data(char lcddata);
+void Lcd_Init(void);
+void Lcd_string(char *String);
+
+void delay(unsigned loops){
+	unsigned int i;
+	for(i =0;i<loops;i++){}
+}
+void Toggle_En(void){
+	delay(DELAY_250us);
+	IO0SET=0x00000020;
+	delay(DELAY_250us;
+	IOCLR0=0x00000080;
+}
+void Lcd_cmd(char lcdcmd){
+	IO0CLR=0x00000020;
+	IO0SET=lcdcmd<<8;
+	IO0CLR=~lcdcmd<<8;
+	delay(DELAY_TINY);
+	Toggle_En();
+	delay(DELAY_250us);
+}
+void Lcd_data(char lcddata){
+	IO0SET=0X00000020;
+	IO0SET=lcddata<<8;
+	I0OCLR=~lcddata<<8;
+	delay(DELAY_TINY);
+	Toggle_En();
+	delay(DELAY_250us);
+}
+void Lcd_Init(void){
+	PINSEL0=0xFFFFFC00;
+	PINDIR=0x0000FFE0;
+	PINCLR=~0x0000FFE0;
+	delay(DELAY_15MS);
+	lcdcmd(0x01);
+	delay(DELAY_15MS);
+	lcdcmd(0x03);
+	delay(DELAY_6MS);
+	lcdcmd(0x03);
+	delay(DELAY_250us);
+	lcdcmd(0x03);
+	delay(DELAY_250us);
+	lcdcmd(0x02);
+	delay(DELAY_250us);
+	lcdcmd(0x38);
+	delay(DELAY_250us);
+	lcdcmd(0x08);
+	delay(DELAY_250us);
+	lcdcmd(0x0C);
+	delay(DELAY_250us);
+	lcdcmd(0x06);
+	delay(DELAY_250us);
+}
+void Lcd_string(char *String){
+	while(*String!='/0'){
+	Lcd_data(*String++);
+	}
+}
+	

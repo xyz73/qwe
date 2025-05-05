@@ -1,0 +1,15 @@
+int main(){
+	unsigned int retdata,i;
+	unsigned char buf[16];
+	HAL_init();
+	adc_init();
+	Lcd_init();
+	Lcd_clear();
+	Lcd_Displaystring(1,1,"LDR-PC-3-CH13");
+	while(1){
+		retdata=readADC();
+		sprintf(buf,"%2,0d mv",retdata);
+		Lcd_Displaystring(2,1,buf);
+		HAL_delay(500);
+	}
+}

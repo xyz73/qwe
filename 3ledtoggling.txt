@@ -1,0 +1,72 @@
+#include "led_userlib.h"
+#include "lpc214x.h"
+void initpll(void);
+void initTimer0(void);
+void delayUS(unsigned int microsecond);
+void delayMS(unsigned int milisecond);
+void delay_ms(unsigned int j);
+
+void initpull(void){
+	PLL0CON=0x01;
+	PLL0CFG=0X24;
+	PLL0FEED=0XAA;
+	PLL0FEED=0x55;
+	while ( ! (PLLOSTAT&0x40;));
+	PLL0CON=0x03;
+	PLL0FEED=0xAA;
+	PLL0FEED=0x55;	
+	VPBDIV=0x01;
+}
+void initTimer0(void){
+	VPBDIV=0x01;
+	T0CTCR=0x0;
+	T0CR=60-1;
+	TOTCR=0x02;
+}
+void delayUS(unsigned int microsecond){
+	T0TCR=0x02;
+	T0TCR=0X01;
+	while(TOTC<microsecond)
+	TOTCR=0x00;
+}
+void delayMS(unsigned int milisecond){
+	T0TCR=0x02;
+	T0TCR=0x01;
+	while(TOTC<(milisecond*1000)
+	T0TCR=0x00;
+}
+void delay_ms(unsigned int j){
+	while(j){
+		delayUS(1000);
+		j--;
+	}
+}
+void main(){
+	initpll();
+	initTimer0();
+	InitLed();
+	while(1){
+		LedOn(LED1);
+		LedOn(LED2);
+		LedOn(LED3);
+		LedOn(LED4);
+		LedOn(LED5);
+		LedOn(LED6);
+		LedOn(LED7);
+		LedOn(LED8);
+		
+		delay_ms(1000);
+		
+		LedOff(LED1);
+		LedOff(LED2);
+		LedOff(LED3);
+		LedOff(LED4);
+		LedOff(LED5);
+		LedOff(LED6);
+		LedOff(LED7);
+		LedOff(LED8);
+		
+		delay_ms(1000);
+	}
+}
+		

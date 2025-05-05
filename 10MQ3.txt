@@ -1,0 +1,15 @@
+int main(){
+	unsigned char retdata,i;
+	unsigned char buf[16];
+	HAL_init();
+	adc_init();
+	Lcd_init();
+	Lcd_clear();
+	Lcd_DisplayString(1,1,"MQ3-PC-3-CH12");
+	while(1){
+		retdata=readADC();
+		sprintf(buf,"%4.0d mv",retdata);
+		Lcd_DisplayString(2,1,buf);
+		HAL_delay(500);
+	}
+}

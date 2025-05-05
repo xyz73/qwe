@@ -1,0 +1,14 @@
+#include "lp214x.h"
+@include "Uart.h"
+int main(void){
+	int rdata;
+	Uart0_Init(9600);
+	Uart0_Tx('A');
+	Uart0_String("Demo Prog");
+	Uart0_string("/n/r");
+	Uart0_String("Type any char on terminal");
+	while (1){
+		rdata=Uart_Tx();
+		Uart_Tx(rdata);
+	}
+}

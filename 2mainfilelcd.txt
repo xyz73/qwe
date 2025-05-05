@@ -1,0 +1,12 @@
+#include "lpc214x.h"
+#include "lcd.h"
+void main(void){
+	Lcd_Init();
+	Lcd_cmd(0x01);
+	Lcd_cmd(0x80);
+	Lcd_data(0x42);
+	
+	Lcd_String("Edutech");
+	
+	while(1);
+}
